@@ -30,10 +30,10 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test --project=chromium
         env:
-          BASE_URL: https://the-internet.herokuapp.com
-          VALID_USERNAME: tomsmith
-          VALID_PASSWORD: SuperSecretPassword!
-          API_URL: https://jsonplaceholder.typicode.com
+          BASE_URL: ${{ secrets.BASE_URL }}
+          VALID_USERNAME: ${{ secrets.VALID_USERNAME }}
+          VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
+          API_URL: ${{ secrets.API_URL }}
           CI: true
 
       - name: Upload Playwright Report
