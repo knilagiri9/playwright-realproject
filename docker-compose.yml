@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  playwright:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - BASE_URL=${BASE_URL}
+      - VALID_USERNAME=${VALID_USERNAME}
+      - VALID_PASSWORD=${VALID_PASSWORD}
+      - API_URL=${API_URL}
+      - CI=true
+    volumes:
+      - ./playwright-report:/app/playwright-report
+      - ./test-results:/app/test-results
+    profiles:
+      - test
+
+  playwright-headed:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - BASE_URL=${BASE_URL}
+      - VALID_USERNAME=${VALID_USERNAME}
+      - VALID_PASSWORD=${VALID_PASSWORD}
+      - API_URL=${API_URL}
+      - CI=false
+    volumes:
+      - ./playwright-report:/app/playwright-report
+      - ./test-results:/app/test-results
+    command: npx playwright test --project=chromium --headed
+    profiles:
+      - headed
