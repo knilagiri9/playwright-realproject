@@ -1,13 +1,7 @@
-FROM mcr.microsoft.com/playwright:v1.62.0-jammy
-
+FROM mcr.microsoft.com/playwright:v1.45.0-jammy
 WORKDIR /app
-
 COPY package.json ./
-
 RUN npm install
-
 COPY . .
-
 ENV CI=true
-
 CMD ["npx", "playwright", "test", "--project=chromium"]
