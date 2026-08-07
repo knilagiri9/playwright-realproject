@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: playwright-tests
+  namespace: playwright-tests
+spec:
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: playwright-tests
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: playwright
+          image: playwright-tests:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: playwright-secrets
+                  key: BASE_URL
+            - name: VALID_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: playwright-secrets
+                  key: VALID_USERNAME
+            - name: VALID_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: playwright-secrets
+                  key: VALID_PASSWORD
+            - name: API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: playwright-secrets
+                  key: API_URL
+            - name: CI
+              value: "true"
